@@ -102,11 +102,14 @@ jobs:
       if: (!cancelled())
       run: df -hT
 
+    - name: Get SHA
+      uses: benjlevesque/short-sha@v3.0
+
     - name: Upload bin directory
       uses: actions/upload-artifact@main
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
       with:
-        name: OpenWrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
+        name: qualcommax-foss-${{ env.SHA }}-${{ env.FILE_DATE }}
         path: openwrt/bin
 
     - name: Organize files
@@ -144,11 +147,11 @@ jobs:
         body_path: release.txt
         files: ${{ env.FIRMWARE }}/*
 
-    - name: Delete workflow runs
-      uses: Mattraks/delete-workflow-runs@main
-      with:
-        retain_days: 0
-        keep_minimum_runs: 2
+    #- name: Delete workflow runs
+    #  uses: Mattraks/delete-workflow-runs@main
+    #  with:
+    #    retain_days: 0
+    #    keep_minimum_runs: 2
 
     - name: Remove old Releases
       uses: dev-drprasad/delete-older-releases@master
