@@ -102,14 +102,11 @@ jobs:
       if: (!cancelled())
       run: df -hT
 
-    - name: Get SHA
-      uses: benjlevesque/short-sha@v3.0
-
     - name: Upload bin directory
       uses: actions/upload-artifact@main
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
       with:
-        name: qualcommax-foss-${{ env.SHA }}-bin-${{ env.FILE_DATE }}
+        name: bin-${{ env.FILE_DATE }}
         path: openwrt/bin
 
     - name: Organize files
@@ -119,6 +116,7 @@ jobs:
         cd openwrt/bin/targets/*/*
         rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
+        echo "SHA=$(cat version.buildinfo)" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: Upload firmware directory
