@@ -20,7 +20,7 @@ env:
   #REPO_URL: https://github.com/yifangd/openwrt.git
   #REPO_BRANCH: arix00-mx4300-dev
   REPO_URL: https://github.com/arix00/openwrt-mx4300.git
-  REPO_BRANCH: qualcommax-foss-464f60e
+  REPO_BRANCH: qualcommax-foss-3d852fb
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: .config
   DIY_P1_SH: diy-part1.sh
