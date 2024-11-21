@@ -1,5 +1,7 @@
 #!/bin/sh
 
+. ./setenv.sh
+
 mkdir kmods
 
 if grep -q "CONFIG_USE_APK=y" .config ; then
