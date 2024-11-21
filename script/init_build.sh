@@ -9,7 +9,7 @@ BUILD_VER="snapshot" #snapshot or release#
 if [ $BUILD_TYPE = "foss" ]; then
     PR=38
 else
-    PR=27
+    PR=39
 fi
 
 PATCH="https://patch-diff.githubusercontent.com/raw/arix00/openwrt-mx4300/pull/${PR}.diff"
