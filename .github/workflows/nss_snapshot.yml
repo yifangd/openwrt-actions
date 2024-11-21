@@ -68,7 +68,7 @@ jobs:
             - name: Release
               uses: ncipollo/release-action@v1
               with:
-                tag: qualcommax-nss-$BUILD_VER-${{ env.build_id }}
+                tag: qualcommax-$BUILD_TYPE-$BUILD_VER-${{ env.build_id }}
                 artifacts: release/*
                 bodyFile: note.md
 

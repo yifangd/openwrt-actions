@@ -1,4 +1,4 @@
-name: test build foss snapshot image
+name: build foss snapshot image
 on: workflow_dispatch
 env:
   SOURCE_REPO:  "https://github.com/openwrt/openwrt.git"
@@ -67,7 +67,7 @@ jobs:
             - name: Release
               uses: ncipollo/release-action@v1
               with:
-                tag: qualcommax-foss-$BUILD_VER-${{ env.build_id }}
+                tag: qualcommax-$BUILD_TYPE-$BUILD_VER-${{ env.build_id }}
                 artifacts: release/*
                 bodyFile: note.md
               
