@@ -6,7 +6,6 @@ env:
   SCRIPT_REPO: "https://github.com/arix00/openwrt-mx4300.git"
   SCRIPT_BRANCH: "build"
   SCRIPT_INIT: "init_build.sh"
-  
   BUILD_TYPE:  "nss"
   BUILD_VER: "snapshot"
   
