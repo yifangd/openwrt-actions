@@ -36,6 +36,6 @@ $checksum
 
 if [ "$1" = "snapshot" ]; then
     echo "
-- \"$errmsg\" [fix](https://github.com/arix00/openwrt-mx4300/blob/build/doc/$mdfile)" >> $MD
+- \"$errmsg\" [fix](https://github.com/${GITHUB_REPOSITORY}/blob/build/doc/$mdfile)" >> $MD
 fi
 

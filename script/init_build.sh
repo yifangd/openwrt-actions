@@ -7,13 +7,12 @@ BUILD_VER="snapshot" #snapshot or release#
 [ ! -z $2 ] && BUILD_VER=$2
 
 if [ $BUILD_TYPE = "foss" ]; then
-    PR=38
+    #use official PR from testuser7
+    PATCH="https://github.com/openwrt/openwrt/pull/16070.diff"
 else
-    PR=39
+    #my PR for qosmio NSS patch, may subject to change
+    PATCH="https://github.com/arix00/openwrt-mx4300/pull/39.diff"
 fi
 
-PATCH="https://patch-diff.githubusercontent.com/raw/arix00/openwrt-mx4300/pull/${PR}.diff"
-
 wget $PATCH -O mx4300.diff
-
 patch -p1 < mx4300.diff

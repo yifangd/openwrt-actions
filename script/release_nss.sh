@@ -37,4 +37,4 @@ echo "- $warning
 $checksum
 \`\`\`
 
-- [use kmods](https://github.com/arix00/openwrt-mx4300/blob/build/doc/$mdfile)" > $MD
+- [use kmods](https://github.com/${GITHUB_REPOSITORY}/blob/build/doc/$mdfile)" > $MD

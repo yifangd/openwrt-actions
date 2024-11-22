@@ -3,9 +3,9 @@ on: workflow_dispatch
 env:
   SOURCE_REPO:  "https://github.com/openwrt/openwrt.git"
   SOURCE_BRANCH: "main"
-  SCRIPT_REPO: "https://github.com/arix00/openwrt-mx4300.git"
-  SCRIPT_BRANCH: "build"
-  SCRIPT_INIT: "init_build.sh"
+  BUILD_REPO: "https://github.com/${{github.repository}}.git"
+  BUILD_BRANCH: "build"
+  BUILD_INIT: "init_build.sh"
   BUILD_TYPE:  "nss"
   BUILD_VER: "snapshot"
   
@@ -44,16 +44,16 @@ jobs:
             - name: Prepare source code
               run:  |
                     git clone $SOURCE_REPO --branch $SOURCE_BRANCH .
-                    git clone $SCRIPT_REPO --branch $SCRIPT_BRANCH $SCRIPT_BRANCH
-                    cp $SCRIPT_BRANCH/script/*.sh .
-                    rm -rf $SCRIPT_BRANCH
-                    sh $SCRIPT_INIT $BUILD_TYPE $BUILD_VER                
+                    git clone $BUILD_REPO --branch $BUILD_BRANCH $BUILD_BRANCH
+                    cp $BUILD_BRANCH/script/*.sh .
+                    rm -rf $BUILD_BRANCH
+                    sh $BUILD_INIT $BUILD_TYPE $BUILD_VER                
 
             - name: Update feeds
               run:  scripts/feeds update -a && scripts/feeds install -a
             
             - name: Generate config
-              run:  sh genconfig_nss.sh full
+              run:  sh genconfig_${BUILD_TYPE}.sh full
 
             - name: Build firmware images
               run:  make -j$(($(nproc)+1)) world
@@ -62,7 +62,7 @@ jobs:
               run:  cat `find staging_dir -name banner`
 
             - name: Prepare release
-              run:  sh release_nss.sh
+              run:  sh release_${BUILD_TYPE}.sh
 
             - name: Release
               uses: ncipollo/release-action@v1
