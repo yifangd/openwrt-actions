@@ -2,7 +2,7 @@ This release has most of the kmods(kernel module) prebuilt, to use the binaries:
 
 1. Download and extract the kmods.tar.gz to the router, for example, `/www`.  
 
-   Note: can use other path instead of `/www` as `apk` accepts local file path as feed.
+   Note: can use other path instead of `/www` as `apk` accepts local file path for feed.
 
    ```
    #on browser, right click the kmods.tar.gz, then "copy link address"
@@ -14,16 +14,10 @@ This release has most of the kmods(kernel module) prebuilt, to use the binaries:
    ```
    /www/kmods/packages.adb
    ```
-
-   and change first line to 
-
-   ```
-   @main https://downloads.openwrt.org/snapshots/targets/qualcommax/ipq807x/packages/packages.adb
-   ```
-
+   
    full file content:
    ```
-   @main https://downloads.openwrt.org/snapshots/targets/qualcommax/ipq807x/packages/packages.adb
+   https://downloads.openwrt.org/snapshots/targets/qualcommax/ipq807x/packages/packages.adb
    https://downloads.openwrt.org/snapshots/packages/aarch64_cortex-a53/base/packages.adb
    https://downloads.openwrt.org/snapshots/packages/aarch64_cortex-a53/luci/packages.adb
    https://downloads.openwrt.org/snapshots/packages/aarch64_cortex-a53/packages/packages.adb   
@@ -31,4 +25,4 @@ This release has most of the kmods(kernel module) prebuilt, to use the binaries:
    https://downloads.openwrt.org/snapshots/packages/aarch64_cortex-a53/telephony/packages.adb
    /www/kmods/packages.adb
    ```
-   kmod feed is setup and ready for use. For more details, check [this](foss-kmod-apk.md).
+   kmod feed is setup and ready for use.

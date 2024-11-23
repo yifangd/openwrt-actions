@@ -1,18 +1,20 @@
-name: build foss snapshot image
-on: workflow_dispatch
+name: auto build nss snapshot with kmod
+on:
+  schedule:
+    - cron: "30 12 * * 3,6"
 env:
   SOURCE_REPO:  "https://github.com/openwrt/openwrt.git"
   SOURCE_BRANCH: "main"
   BUILD_REPO: "https://github.com/${{github.repository}}.git"
   BUILD_BRANCH: "build"
   BUILD_INIT: "init_build.sh"
-  BUILD_TYPE:  "foss"
+  BUILD_TYPE:  "nss"
   BUILD_VER: "snapshot"
   BUILD_KMOD: "y"
 
 jobs:
     build:
-        name: build foss image
+        name: build nss with kmods
         runs-on: ubuntu-latest
         permissions:
             contents: write
@@ -54,7 +56,7 @@ jobs:
               run:  scripts/feeds update -a && scripts/feeds install -a
             
             - name: Generate config
-              run:  sh genconfig_${BUILD_TYPE}.sh ${BUILD_VER}
+              run:  sh genconfig_${BUILD_TYPE}.sh ${BUILD_VER} ${BUILD_KMOD}
 
             - name: Build firmware images
               run:  make -j$(($(nproc)+1)) world
@@ -73,4 +75,4 @@ jobs:
                 tag: qualcommax-${{env.BUILD_TYPE}}-${{env.BUILD_VER}}-${{env.build_id}}
                 artifacts: release/*
                 bodyFile: note.md
-              
+

@@ -1,3 +1,5 @@
+## No longer necessary
+
 ### The problem
 Since snapshot is currently on `apk`, one may get this error when upstream gets a newer kernel.
 

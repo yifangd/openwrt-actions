@@ -1,7 +1,5 @@
 #!/bin/sh
 
-. ./setenv.sh
-
 mkdir kmods
 
 if grep -q "CONFIG_USE_APK=y" .config ; then
@@ -26,7 +24,6 @@ cp kmods.tar.gz release/
 kernel=$(cat release/openwrt-qualcommax-ipq807x-linksys_mx4300.manifest | grep ^kernel | cut -d '~' -f 1)
 checksum=$(sha256sum release/* | sed 's/release\///')
 #echo $checksum
-setenv build_id $(cat `find staging_dir -name banner` | grep OpenWrt | cut -d"," -f 2)
 
 echo "- $warning
 

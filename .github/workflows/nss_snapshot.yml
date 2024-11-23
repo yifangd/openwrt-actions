@@ -8,10 +8,11 @@ env:
   BUILD_INIT: "init_build.sh"
   BUILD_TYPE:  "nss"
   BUILD_VER: "snapshot"
-  
+  BUILD_KMOD: "y"
+
 jobs:
     build:
-        name: build nss snapshot with kmod
+        name: build nss with kmods
         runs-on: ubuntu-latest
         permissions:
             contents: write
@@ -47,27 +48,29 @@ jobs:
                     git clone $BUILD_REPO --branch $BUILD_BRANCH $BUILD_BRANCH
                     cp $BUILD_BRANCH/script/*.sh .
                     rm -rf $BUILD_BRANCH
-                    sh $BUILD_INIT $BUILD_TYPE $BUILD_VER                
+                    sh $BUILD_INIT $BUILD_TYPE $BUILD_VER
 
             - name: Update feeds
               run:  scripts/feeds update -a && scripts/feeds install -a
             
             - name: Generate config
-              run:  sh genconfig_${BUILD_TYPE}.sh full
+              run:  sh genconfig_${BUILD_TYPE}.sh ${BUILD_VER} ${BUILD_KMOD}
 
             - name: Build firmware images
               run:  make -j$(($(nproc)+1)) world
             
-            - name: Check build version
-              run:  cat `find staging_dir -name banner`
+            - name: Get build version
+              run:  |
+                    cat `find staging_dir -name banner`
+                    echo build_id=$(cat `find staging_dir -name banner` | grep OpenWrt | cut -d"," -f 2 | xargs) >> $GITHUB_ENV
 
             - name: Prepare release
-              run:  sh release_${BUILD_TYPE}.sh
+              run:  sh release_${BUILD_TYPE}.sh ${BUILD_VER}
 
             - name: Release
               uses: ncipollo/release-action@v1
               with:
-                tag: qualcommax-${{ env.BUILD_TYPE }}-${{ env.BUILD_VER }}-${{ env.build_id }}
+                tag: qualcommax-${{env.BUILD_TYPE}}-${{env.BUILD_VER}}-${{env.build_id}}
                 artifacts: release/*
                 bodyFile: note.md
 

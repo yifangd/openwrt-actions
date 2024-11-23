@@ -19,6 +19,3 @@ This release has most of the kmods(kernel module) prebuilt, to use the binaries:
    ```
 
 3. Run `opkg update` and proceed with package installation.
-
-4. Check [this](snapshot-dependency-guide.md) in case of "pkg_hash_check_unresolved: cannot find dependency kernel" error.
-   

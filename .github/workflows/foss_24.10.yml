@@ -1,13 +1,13 @@
-name: build foss snapshot image
+name: build foss 24.10 image
 on: workflow_dispatch
 env:
   SOURCE_REPO:  "https://github.com/openwrt/openwrt.git"
-  SOURCE_BRANCH: "main"
+  SOURCE_BRANCH: "openwrt-24.10"
   BUILD_REPO: "https://github.com/${{github.repository}}.git"
   BUILD_BRANCH: "build"
   BUILD_INIT: "init_build.sh"
   BUILD_TYPE:  "foss"
-  BUILD_VER: "snapshot"
+  BUILD_VER: "24.10-SNAPSHOT"
   BUILD_KMOD: "y"
 
 jobs:

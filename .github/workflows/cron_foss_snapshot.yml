@@ -1,5 +1,7 @@
-name: build foss snapshot image
-on: workflow_dispatch
+name: autobuild foss snapshot image
+on:
+  schedule:
+    - cron: "30 12 * * 3,6"
 env:
   SOURCE_REPO:  "https://github.com/openwrt/openwrt.git"
   SOURCE_BRANCH: "main"

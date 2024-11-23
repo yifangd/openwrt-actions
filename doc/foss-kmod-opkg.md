@@ -1,3 +1,5 @@
+## No longer necessary
+
 ### The problem
 Snapshot builds evolve quickly, and that sets time limits to install new packages. If you ever get the kernel dependency error:
 
