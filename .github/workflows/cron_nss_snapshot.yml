@@ -10,6 +10,7 @@ env:
   BUILD_INIT: "init_build.sh"
   BUILD_TYPE:  "nss"
   BUILD_VER: "snapshot"
+  BUILD_TAG: ""
   BUILD_KMOD: "y"
 
 jobs:
@@ -47,6 +48,7 @@ jobs:
             - name: Prepare source code
               run:  |
                     git clone $SOURCE_REPO --branch $SOURCE_BRANCH .
+                    [ ! -z $BUILD_TAG ] && git checkout $BUILD_TAG
                     git clone $BUILD_REPO --branch $BUILD_BRANCH $BUILD_BRANCH
                     cp $BUILD_BRANCH/script/*.sh .
                     rm -rf $BUILD_BRANCH
@@ -67,12 +69,13 @@ jobs:
                     echo build_id=$(cat `find staging_dir -name banner` | grep OpenWrt | cut -d"," -f 2 | xargs) >> $GITHUB_ENV
 
             - name: Prepare release
-              run:  sh release_${BUILD_TYPE}.sh ${BUILD_VER}
+              run:  sh release.sh ${BUILD_TYPE} ${BUILD_VER}
 
             - name: Release
               uses: ncipollo/release-action@v1
               with:
                 tag: qualcommax-${{env.BUILD_TYPE}}-${{env.BUILD_VER}}-${{env.build_id}}
+                allowUpdates: true
                 artifacts: release/*
                 bodyFile: note.md
 
