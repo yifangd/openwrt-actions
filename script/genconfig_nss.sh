@@ -18,7 +18,8 @@ fi
 if [ "${buildkmod}" != "n" ]; then
   jsonpath=$(wget ${mainpath}/sha256sums -O - | grep index.json -m 1 | cut -d '*' -f 2 | xargs)
   kmods=$(wget ${mainpath}/${jsonpath} -O - | jq '.packages' | grep \"kmod | cut -d '"' -f 2)
-  kmods=$(echo "$kmods" | grep -v ath | grep -v kmod-bonding | grep -v vxlan | grep -v kmod-nat46)
+  #kmods=$(echo "$kmods" | grep -v ath | grep -v kmod-bonding | grep -v vxlan | grep -v kmod-nat46)
+  kmods=$(echo "$kmods" | grep -v ath)
   echo extra kmods: $(echo $kmods | wc -w)
 fi
 
@@ -32,3 +33,5 @@ make defconfig
 
 for k in $kmods; do grep -q $k=y .config || echo CONFIG_PACKAGE_$k=m >> .config; done
 make defconfig
+
+cat .config | grep kmod-qca | grep -v "not set"

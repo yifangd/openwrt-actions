@@ -1,81 +1,12 @@
-name: auto build nss snapshot with kmod
+name: auto build nss snapshot
 on:
   schedule:
     - cron: "30 12 * * 3,6"
-env:
-  SOURCE_REPO:  "https://github.com/openwrt/openwrt.git"
-  SOURCE_BRANCH: "main"
-  BUILD_REPO: "https://github.com/${{github.repository}}.git"
-  BUILD_BRANCH: "build"
-  BUILD_INIT: "init_build.sh"
-  BUILD_TYPE:  "nss"
-  BUILD_VER: "snapshot"
-  BUILD_TAG: ""
-  BUILD_KMOD: "y"
 
 jobs:
-    build:
-        name: build nss with kmods
-        runs-on: ubuntu-latest
-        permissions:
-            contents: write
-        steps:
-            - name: Install packages
-              run: |
-                  sudo apt-get update && \
-                  sudo apt-get install -y \
-                      build-essential \
-                      clang \
-                      flex \
-                      bison \
-                      g++ \
-                      gawk \
-                      gcc-multilib \
-                      g++-multilib \
-                      gettext \
-                      git \
-                      libncurses-dev \
-                      libssl-dev \
-                      python3-setuptools \
-                      rsync \
-                      unzip \
-                      zlib1g-dev \
-                      file \
-                      jq \
-                      wget && \
-                  sudo apt-get clean
-
-            - name: Prepare source code
-              run:  |
-                    git clone $SOURCE_REPO --branch $SOURCE_BRANCH .
-                    [ ! -z $BUILD_TAG ] && git checkout $BUILD_TAG
-                    git clone $BUILD_REPO --branch $BUILD_BRANCH $BUILD_BRANCH
-                    cp $BUILD_BRANCH/script/*.sh .
-                    rm -rf $BUILD_BRANCH
-                    sh $BUILD_INIT $BUILD_TYPE $BUILD_VER
-
-            - name: Update feeds
-              run:  scripts/feeds update -a && scripts/feeds install -a
-            
-            - name: Generate config
-              run:  sh genconfig_${BUILD_TYPE}.sh ${BUILD_VER} ${BUILD_KMOD}
-
-            - name: Build firmware images
-              run:  make -j$(($(nproc)+1)) world
-            
-            - name: Get build version
-              run:  |
-                    cat `find staging_dir -name banner`
-                    echo build_id=$(cat `find staging_dir -name banner` | grep OpenWrt | cut -d"," -f 2 | xargs) >> $GITHUB_ENV
-
-            - name: Prepare release
-              run:  sh release.sh ${BUILD_TYPE} ${BUILD_VER}
-
-            - name: Release
-              uses: ncipollo/release-action@v1
-              with:
-                tag: qualcommax-${{env.BUILD_TYPE}}-${{env.BUILD_VER}}-${{env.build_id}}
-                allowUpdates: true
-                artifacts: release/*
-                bodyFile: note.md
-
+  call-build-nss-snapshot:
+    permissions:
+      contents: write
+    uses:
+      ./.github/workflows/nss_snapshot.yml
+              

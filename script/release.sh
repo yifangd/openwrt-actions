@@ -30,6 +30,7 @@ cp bin/targets/qualcommax/ipq807x/openwrt-*-ipq807x-linksys_mx4300-* release/
 cp bin/targets/qualcommax/ipq807x/openwrt-*-ipq807x-linksys_mx4300.manifest release/
 
 if [ $type = "foss" ]; then
+    cp bin/targets/qualcommax/ipq807x/openwrt-imagebuilder* release/
     kernel=$(cat release/*linksys_mx4300.manifest | grep ^kernel)
 else
     kernel=$(cat release/*linksys_mx4300.manifest | grep ^kernel | cut -d '~' -f 1)

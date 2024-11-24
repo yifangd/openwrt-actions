@@ -1,7 +1,7 @@
 #!/bin/sh
 
 
-if [ ! -z "$1" ] && [ "$1" != "snapshot" ]; then
+if [ ! -z "$1" -a "$1" != "snapshot" ]; then
   buildinfo="https://downloads.openwrt.org/releases/$1/targets/qualcommax/ipq807x/config.buildinfo"
 else
   buildinfo="https://downloads.openwrt.org/snapshots/targets/qualcommax/ipq807x/config.buildinfo"
