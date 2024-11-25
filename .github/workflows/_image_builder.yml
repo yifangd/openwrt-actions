@@ -14,10 +14,6 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Env from caller
-        run: |  
-          echo '${{inputs.build_settings}}' | jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' >> $GITHUB_ENV
-
       - name: Install packages
         run: |
           sudo apt-get update && \
@@ -42,6 +38,10 @@ jobs:
                 jq \
                 wget && \
           sudo apt-get clean
+
+      - name: Env from caller
+        run: |  
+          echo '${{inputs.build_settings}}' | jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' >> $GITHUB_ENV
 
       - name: Prepare source code
         run:  |
