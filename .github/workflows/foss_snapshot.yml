@@ -19,5 +19,5 @@ jobs:
         "BUILD_TYPE":  "foss",
         "BUILD_VER": "snapshot",
         "BUILD_TAG": "",
-        "BUILD_SYNC": "y",        
+        "BUILD_SYNC": "n",
         "BUILD_KMOD": "y"}'
