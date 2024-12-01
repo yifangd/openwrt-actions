@@ -11,14 +11,17 @@ tag="" #commit hash
 [ ! -z $4 ] && tag=$4
 
 if [ $type = "foss" ]; then    
-    #use official PR from testuser7
+    #official MX4300 PR from testuser7
+    #https://github.com/openwrt/openwrt/pull/16070
     PATCH="https://github.com/openwrt/openwrt/pull/16070.diff"
 elif [ $type = "nss" -a $ver = "snapshot" ]; then
-    #my PR for qosmio NSS patch, may subject to change
-    PATCH="https://github.com/arix00/openwrt-mx4300/pull/39.diff"
+    #qosmio NSS patch
+    #https://github.com/qosmio/openwrt-ipq
+    PATCH="https://github.com/openwrt/openwrt/compare/main...qosmio:openwrt-ipq:main-nss-mx4300.diff"
 elif [ $type = "nss" -a $ver != "snapshot" ]; then
-    #TBA. patch for 24.10 branch
-    PATCH="https://github.com/arix00/openwrt-mx4300/pull/41.diff"
+    #nss patch for 24.10 branch
+    #https://github.com/qosmio/openwrt-ipq
+    PATCH="https://github.com/openwrt/openwrt/compare/openwrt-24.10...qosmio:openwrt-ipq:24.10-nss-mx4300.diff"
 else
     echo "Unsupported build: $type $ver"
     exit 1
@@ -32,13 +35,13 @@ fi
 
     
 if [ ! -z $tag ]; then
-    git checkout $tag
+    git reset --hard $tag
     sync="n"
 fi    
 
 if [ $sync = "y" ]; then
     #use published build version instead.
-    git checkout $(wget $buildinfo -O - | cut -d '-' -f 2)
+    git reset --hard $(wget $buildinfo -O - | cut -d '-' -f 2)
 fi
 
 
