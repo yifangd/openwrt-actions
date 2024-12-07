@@ -54,10 +54,9 @@ patch -p1 < mx4300.diff
 #2. upstream updated package/firmware/ipq-wifi/Makefile, need fix from qosmio
 if [ $type = "nss" ]; then
   if [ -f "feeds.conf.default.rej" ]; then
-    echo "##add src-git to feeds.conf.default"
-    echo "src-git nss_packages https://github.com/qosmio/nss-packages.git;NSS-12.5-K6.x
-src-git sqm_scripts_nss https://github.com/qosmio/sqm-scripts-nss.git" >> feeds.conf.default
-  cat feeds.conf.default
+    echo "##append qosmio's src-git to feeds.conf.default"
+    curl -L "https://raw.githubusercontent.com/qosmio/openwrt-ipq/refs/heads/main-nss-mx4300/feeds.conf.default" | grep qosmio >> feeds.conf.default
+    cat feeds.conf.default
   fi
   if [ -f "package/firmware/ipq-wifi/Makefile.rej" ]; then
     echo "##use package/firmware/ipq-wifi/Makefile from qosmio"
