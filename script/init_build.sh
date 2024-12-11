@@ -20,9 +20,11 @@ elif [ $type = "nss" ]; then
     case $ver in
         "snapshot")   
             PATCH="https://github.com/openwrt/openwrt/compare/main...qosmio:openwrt-ipq:main-nss-mx4300.diff"
+            NSSBRANCH="main-nss-mx4300"
             ;;
         "24.10"*)
             PATCH="https://github.com/openwrt/openwrt/compare/openwrt-24.10...qosmio:openwrt-ipq:24.10-nss-mx4300.diff"
+            NSSBRANCH="24.10-nss-mx4300"
             ;;
     esac
 fi
@@ -51,16 +53,24 @@ curl -L $PATCH -o mx4300.diff
 patch -p1 < mx4300.diff
 
 #1. support both 24.10-snapshot and (tagged) release
-#2. upstream updated package/firmware/ipq-wifi/Makefile, need fix from qosmio
+#2. Handle package/firmware/ipq-wifi/Makefile in *possible* patch failure.
 if [ $type = "nss" ]; then
   if [ -f "feeds.conf.default.rej" ]; then
     echo "##append qosmio's src-git to feeds.conf.default"
-    curl -L "https://raw.githubusercontent.com/qosmio/openwrt-ipq/refs/heads/main-nss-mx4300/feeds.conf.default" | grep qosmio >> feeds.conf.default
+    curl -L "https://raw.githubusercontent.com/qosmio/openwrt-ipq/refs/heads/${NSSBRANCH}/feeds.conf.default" | grep qosmio >> feeds.conf.default
+    rm feeds.conf.default.rej
     cat feeds.conf.default
   fi
   if [ -f "package/firmware/ipq-wifi/Makefile.rej" ]; then
     echo "##use package/firmware/ipq-wifi/Makefile from qosmio"
-    curl -L https://raw.githubusercontent.com/qosmio/openwrt-ipq/refs/heads/main-nss-mx4300/package/firmware/ipq-wifi/Makefile -o package/firmware/ipq-wifi/Makefile
+    curl -L https://raw.githubusercontent.com/qosmio/openwrt-ipq/refs/heads/${NSSBRANCH}/package/firmware/ipq-wifi/Makefile -o package/firmware/ipq-wifi/Makefile
+    rm package/firmware/ipq-wifi/Makefile.rej
     #cat package/firmware/ipq-wifi/Makefile
   fi
+fi
+
+#err exit with unhandled failed patch
+rej=$(find . -name "*.rej"  | wc -l)
+if [ ! $rej = "0" ]; then
+    exit 1
 fi
