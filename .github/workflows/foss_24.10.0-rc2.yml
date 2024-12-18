@@ -8,7 +8,8 @@ jobs:
     permissions:
       contents: write
     uses:
-      arix00/openwrt-mx4300/.github/workflows/_image_builder.yml@build      
+      #arix00/openwrt-mx4300/.github/workflows/_image_builder.yml@build      
+      ./.github/workflows/_image_builder.yml
     with:
       build_settings: 
         '{"SOURCE_REPO":  "https://github.com/openwrt/openwrt.git", 
