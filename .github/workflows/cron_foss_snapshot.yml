@@ -1,5 +1,6 @@
 name: auto build foss snapshot image
 on:
+  workflow_dispatch:
   schedule:
     - cron: "30 12 * * 3,6"
 

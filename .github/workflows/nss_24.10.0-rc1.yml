@@ -1,10 +1,9 @@
-name: build foss snapshot
+name: build nss 24.10
 on:
   workflow_dispatch:
-  workflow_call:          
-  
+      
 jobs:
-  call-image-builder-foss-snapshot:
+  call-image-builder-nss-24_10:
     permissions:
       contents: write
     uses:
@@ -12,12 +11,12 @@ jobs:
     with:
       build_settings: 
         '{"SOURCE_REPO":  "https://github.com/openwrt/openwrt.git", 
-        "SOURCE_BRANCH": "main",
+        "SOURCE_BRANCH": "openwrt-24.10",
         "BUILD_REPO":    "https://github.com/${{github.repository}}.git",
         "BUILD_BRANCH": "build",
         "BUILD_INIT": "init_build.sh",
-        "BUILD_TYPE":  "foss",
-        "BUILD_VER": "snapshot",
-        "BUILD_TAG": "",
-        "BUILD_SYNC": "n",
+        "BUILD_TYPE":  "nss",
+        "BUILD_VER": "24.10.0-rc1",
+        "BUILD_TAG": "4171498",
+        "BUILD_SYNC": "y",
         "BUILD_KMOD": "y"}'
