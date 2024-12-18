@@ -10,7 +10,7 @@ on:
 jobs:
   internal-image-builder:
     name: internal OpenWrt builder
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     permissions:
       contents: write
     steps:
