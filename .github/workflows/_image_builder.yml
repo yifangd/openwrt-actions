@@ -59,8 +59,13 @@ jobs:
         run:  sh genconfig_${BUILD_TYPE}.sh ${BUILD_VER} ${BUILD_KMOD}
 
       - name: Build firmware images
+        id: buildfirmware
         run:  make -j$(($(nproc)+1)) world
-      
+
+      - name: Retry build
+        if: failure()  && steps.buildfirmware.outcome == 'failure'
+        run:  make clean && sleep 10m && make -j$(($(nproc)+1)) world
+        
       - name: Get build version
         run:  |
           cat `find staging_dir -name banner`
