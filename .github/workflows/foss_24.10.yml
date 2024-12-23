@@ -1,4 +1,4 @@
-name: build foss 24.10.0-rc4
+name: build foss 24.10
 on:
   workflow_dispatch:
   workflow_call:
