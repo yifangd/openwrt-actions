@@ -18,6 +18,6 @@ jobs:
         "BUILD_INIT": "init_build.sh",
         "BUILD_TYPE":  "foss",
         "BUILD_VER": "24.10.0-rc4",
-        "BUILD_TAG": "dd04edf",
+        "BUILD_TAG": "1e530e5",
         "BUILD_SYNC": "y",
         "BUILD_KMOD": "y"}'        
