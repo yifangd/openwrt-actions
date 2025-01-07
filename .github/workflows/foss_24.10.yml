@@ -17,7 +17,7 @@ jobs:
         "BUILD_BRANCH": "build",
         "BUILD_INIT": "init_build.sh",
         "BUILD_TYPE":  "foss",
-        "BUILD_VER": "24.10.0-rc4",
-        "BUILD_TAG": "1e530e5",
+        "BUILD_VER": "24.10.0-rc5",
+        "BUILD_TAG": "3d17274",
         "BUILD_SYNC": "y",
         "BUILD_KMOD": "y"}'        
