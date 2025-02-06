@@ -15,8 +15,8 @@ jobs:
         "BUILD_REPO":    "https://github.com/${{github.repository}}.git",
         "BUILD_BRANCH": "build",
         "BUILD_INIT": "init_build.sh",
-        "BUILD_TYPE":  "nss",
-        "BUILD_VER": "24.10-SNAPSHOT",
+        "BUILD_VER": "24.10.0",
+        "BUILD_TAG": "1fad1b4",
         "BUILD_TAG": "",
         "BUILD_SYNC": "y",
         "BUILD_KMOD": "y"}'
